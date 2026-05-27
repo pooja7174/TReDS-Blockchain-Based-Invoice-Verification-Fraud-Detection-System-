@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>TReDS Blockchain Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+    <h1>TReDS Blockchain Dashboard</h1>
+
+    <br>
+
+    <a href="/upload">Upload New Invoice</a>
+
+    <div class="stats-container">
+
+        <div class="card">
+            <h3>Total</h3>
+            <p>{{ total }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Approved</h3>
+            <p>{{ approved }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Rejected</h3>
+            <p>{{ rejected }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Pending</h3>
+            <p>{{ pending }}</p>
+        </div>
+
+    </div>
+
+    {% for block in chain %}
+
+    <div class="block">
+
+        <h2>Block {{ block['Index'] }}</h2>
+
+        <p>
+            <strong>Timestamp:</strong>
+            {{ block['Timestamp'] }}
+        </p>
+
+        <h3>Invoice Data:</h3>
+
+        <ul>
+
+        {% if block['Data'] == "Genesis Block" %}
+
+            <li>Genesis Block</li>
+
+        {% else %}
+
+            <li>
+                <strong>Invoice ID:</strong>
+                {{ block['Data']['invoice_id'] }}
+            </li>
+
+            <li>
+                <strong>Company:</strong>
+                {{ block['Data']['company'] }}
+            </li>
+
+            <li>
+                <strong>Amount:</strong>
+                ₹{{ block['Data']['amount'] }}
+            </li>
+
+            <li>
+                <strong>Buyer:</strong>
+                {{ block['Data']['buyer'] }}
+            </li>
+
+            <li>
+                <strong>Status:</strong>
+                {{ block['Data']['status'] }}
+            </li>
+
+        {% endif %}
+
+        </ul>
+
+        {% if block['Data'] != "Genesis Block" %}
+
+            {% if block['Data']['status'] == "Pending" %}
+
+                <a href="/approve/{{ block['Index'] }}"
+                   style="background-color: green;">
+                   Approve
+                </a>
+
+                <a href="/reject/{{ block['Index'] }}"
+                   style="background-color: red;">
+                   Reject
+                </a>
+
+            {% endif %}
+
+        {% endif %}
+
+        <p>
+            <strong>Hash:</strong>
+            {{ block['Hash'] }}
+        </p>
+
+        <p>
+            <strong>Previous Hash:</strong>
+            {{ block['Previous Hash'] }}
+        </p>
+
+    </div>
+
+    {% endfor %}
+
+</body>
+
+</html>

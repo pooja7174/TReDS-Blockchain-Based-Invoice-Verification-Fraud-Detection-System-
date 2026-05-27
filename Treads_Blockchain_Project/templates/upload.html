@@ -1,0 +1,28 @@
+<form method="POST">
+
+    <label>Invoice ID</label>
+    <input type="text" name="invoice_id" required>
+
+    <label>Company</label>
+    <input type="text" name="company" required>
+
+    <label>Amount</label>
+    <input type="text" name="amount" required>
+
+    <label>Buyer</label>
+    <input type="text" name="buyer" required>
+
+    <!-- ADD THIS -->
+    <label>Client Email</label>
+    <input
+        type="email"
+        name="email"
+        placeholder="Enter client email"
+        required
+    >
+
+    <button type="submit">
+        Upload Invoice
+    </button>
+
+</form>
